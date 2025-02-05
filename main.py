@@ -34,9 +34,10 @@ def extract_pdf_to_text(pdf_path: str, output_text_file: str, include_page_numbe
 
 def main():
     if len(sys.argv) not in {2, 3}:
-        print("Usage: python pdf2txt.py <input_pdf_file>")
-        print("Example: python pdf2txt.py something.pdf (outputs to something.txt)")
-        print("Usage: python pdf2txt.py <input_pdf_dir> [output_txt_dir]")
+        print("Usage: python main.py <input_pdf_file>")
+        print("Example: python main.py something.pdf (outputs to something.txt)")
+        print("Usage: python main.py <input_pdf_dir> [output_txt_dir]")
+        return
 
     if len(sys.argv) == 2:
         pdf_path = Path(sys.argv[1])
@@ -55,26 +56,26 @@ def main():
 
                 output_txt_path = pdf_path.with_suffix('.txt')
                 extract_pdf_to_text(str(pdf_file), str(output_txt_path))
+        return
 
-    else:
-        pdf_path = Path(sys.argv[1])
-        txt_path = Path(sys.argv[2])
+    pdf_path = Path(sys.argv[1])
+    txt_path = Path(sys.argv[2])
 
-        if not pdf_path.exists() or pdf_path.is_file():
-            print("Error: Source path is not valid.")
+    if not pdf_path.exists() or pdf_path.is_file():
+        print("Error: Source path is not valid.")
 
-        if txt_path.exists() and txt_path.is_file():
-            print("Error: Destination path is not valid.")
+    if txt_path.exists() and txt_path.is_file():
+        print("Error: Destination path is not valid.")
 
-        if not txt_path.exists():
-            txt_path.mkdir(711)
+    if not txt_path.exists():
+        txt_path.mkdir(711)
 
-        for pdf_file in pdf_path.iterdir():
-            if not pdf_file.suffix == '.pdf':
-                continue
+    for pdf_file in pdf_path.iterdir():
+        if not pdf_file.suffix == '.pdf':
+            continue
 
-            output_txt_path = txt_path / pdf_path.with_suffix('.txt').name
-            extract_pdf_to_text(str(pdf_file), str(output_txt_path))
+        output_txt_path = txt_path / pdf_file.with_suffix('.txt').name
+        extract_pdf_to_text(str(pdf_file), str(output_txt_path))
 
 # Entry point of the script
 if __name__ == "__main__":
